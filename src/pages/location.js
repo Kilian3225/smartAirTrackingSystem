@@ -23,3 +23,8 @@ if (selectedLocationIndex === null) {
         document.querySelector('#locationCoordinates').textContent = `${selectedLocation.latitude}, ${selectedLocation.longitude}`;
     }
 }
+
+
+
+
+const resizableElements = document.querySelectorAll('.resizable');
