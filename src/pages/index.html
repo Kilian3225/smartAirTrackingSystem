@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>smart Air Tracking System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet"/>
+
+    <script src="script.js" type="module"></script>
+    <script src="header.js" type="module"></script>
+    <script src="darkmode.js" type="module"></script>
+
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+
+</head>
+
+<body class="dark">
+<div class="overlay"></div>
+
+<header>
+    <div class="nav">
+        <div class="menu">
+            <label class="burger" for="burger">
+                <input type="checkbox" id="burger" autocomplete="off">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+        <div class="heading">
+            <img class="logo" src="../../images/Logo-white.png" alt="logo">
+            <img class="logo" src="../../images/Logo-black.png" alt="logo">
+            <p>Smart Air Tracking System</p>
+        </div>
+        <div class="subpages">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Über uns</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+        <div class="darkmode">
+            <div class="toggle-switch">
+                <label class="switch-label">
+                    <input type="checkbox" class="checkbox" id="darkmode-status">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <nav class="dropdown-menu">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Über uns</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Kontakt</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<div class="width-limiter">
+    <main>
+        <div class="map"></div>
+        <div class="general-info">
+            <div class="description">
+                <h2>Beschreibung</h2>
+                <p>SATS ist ein innovatives Sensornetzwerk, das sich über die gesamte
+                    Stadt Klagenfurt erstreckt. Es ermöglicht die Echt zeitüberwachung
+                    von Umweltdaten und Luftqualität. Das Ne tzwerk ist offen gestaltet
+                    und kann flexibel durch weitere Sensoren erweitert werden, um so noch
+                    präzisere Daten zu sammeln und neue Standorte abzudecken.
+                </p>
+                <button class="button">Mehr Details</button>
+            </div>
+            <iframe class="chart mobile"
+                    src="http://localhost:3000/d-solo/ee1pprtxyfy0wd/testboard1?orgId=1&from=1729592495000&to=1729596095000&theme=light&panelId=1"></iframe>
+            <div class="alert">
+                <h2>Extremwert-Warnung</h2>
+                <p>Lassen sie sich benachrichten, sollten
+                    Kritische Feinstaubwerte erreicht werden
+                </p>
+                <button class="button">jetzt Anmelden</button>
+            </div>
+        </div>
+        <div class="sensor-info">
+            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            <iframe class="chart grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
+            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+        </div>
+    </main>
+</div>
+
+
+<footer>
+</footer>
+</body>
+</html>
