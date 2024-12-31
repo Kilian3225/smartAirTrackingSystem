@@ -125,7 +125,6 @@ header {
     box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
 }
 
-
 @media (min-width: 768px)
 {
     .menu{display: none;}

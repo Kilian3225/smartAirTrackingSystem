@@ -84,6 +84,7 @@ main .chart:not(.mobile){
     margin: 5px;
     background: #FEF7D1;
     border: 2px solid #F7C752;
+    color: black;
 }
 .alert button{
     background: -webkit-linear-gradient(to right, #f45c43, #eb3349);
