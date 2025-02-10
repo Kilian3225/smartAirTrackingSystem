@@ -75,7 +75,7 @@ async function updateLocationsData()
         {
             let fileData = await fs.readFile(FILE_PATH, 'utf-8');
 
-            console.log("fileData   ", fileData);
+            console.log("fileData", fileData);
             existingData = fileData;
         } catch (error)
         {

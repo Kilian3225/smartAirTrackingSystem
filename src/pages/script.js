@@ -93,7 +93,6 @@ function createMap()
 }
 
 mapDiv.addEventListener('click', createMap);
-createMap();
 
 
 
