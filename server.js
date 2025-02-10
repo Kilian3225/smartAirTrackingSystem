@@ -15,45 +15,43 @@ const queryAPI = new InfluxDB({ url, token }).getQueryApi(org);
 const app = express();
 
 // Function to fetch data from InfluxDB
-async function fetchLocations()
-{
+async function fetchLocations() {
     const fluxQuery = `
         from(bucket: "${bucket}")
-        |> range(start: 0)
-        |> filter(fn: (r) => r._measurement == "location")`;
-
-    try
-    {
+          |> range(start: -30d)
+          |> filter(fn: (r) => r._measurement == "mqtt_consumer")
+          |> filter(fn: (r) => r._field == "latitude" or r._field == "longitude")
+          |> pivot(rowKey: ["_time", "topic"], columnKey: ["_field"], valueColumn: "_value")
+          |> group(columns: ["topic"])
+          |> filter(fn: (r) => r.latitude != 0 and r.longitude != 0)
+          |> last(column: "topic")`;
+    try {
         let results = [];
         let currentPoint = {};
 
-
-        for await (const { values, tableMeta } of queryAPI.iterateRows(fluxQuery))
-        {
+        for await (const { values, tableMeta } of queryAPI.iterateRows(fluxQuery)) {
             const row = tableMeta.toObject(values);
-            const name = row.name;
+            const topic = row.topic;  // Assuming the topic is available in the row
+            const latitude = row.latitude;
+            const longitude = row.longitude;
 
-            if (row._field === 'lat')
-            {
-                currentPoint.latitude = parseFloat(row._value);
-            } else if (row._field === 'lon')
-            {
-                currentPoint.longitude = parseFloat(row._value);
-            } else if (row._field === 'status')
-            {
-                currentPoint.status = row._value;
-            }
+            // Ensure the status is not 0 and that both latitude and longitude exist
+            if (latitude !== undefined && longitude !== undefined) {
+                currentPoint = {
+                    topic: topic,
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude),
+                };
 
-            // Add the current point to results if it has all required fields
-            if (currentPoint.latitude && currentPoint.longitude && currentPoint.status !== undefined) {
-                currentPoint.name = name;
-                results.push(currentPoint);
-                currentPoint = {};
+                // Only add the current point if it has all required fields
+                if (currentPoint.latitude && currentPoint.longitude) {
+                    results.push(currentPoint);
+                    currentPoint = {}; // Reset the current point for the next one
+                }
             }
         }
         return results;
-    } catch (error)
-    {
+    } catch (error) {
         console.error('Error querying data:', error);
         return null;
     }
@@ -106,6 +104,7 @@ app.get('/locations', async (req, res) => {
     try
     {
         const data = await fs.readFile(FILE_PATH, 'utf-8');
+        console.log("Raw JSON Response:", data);
         res.json(JSON.parse(data));
     } catch (error)
     {

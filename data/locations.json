@@ -1,32 +1,12 @@
 [
   {
-    "latitude": 46.610655,
-    "longitude": 14.304338,
-    "status": true,
-    "name": "\"Standort-1\""
+    "topic": "v3/lora-201124@ttn/devices/sats-modul-01/up",
+    "latitude": 46.610682,
+    "longitude": 14.304608
   },
   {
-    "latitude": 46.668234,
-    "longitude": 14.378521,
-    "status": true,
-    "name": "\"Standort-2\""
-  },
-  {
-    "latitude": 46.525987,
-    "longitude": 14.234567,
-    "status": false,
-    "name": "\"Standort-3\""
-  },
-  {
-    "latitude": 46.498765,
-    "longitude": 14.412345,
-    "status": true,
-    "name": "\"Standort-4\""
-  },
-  {
-    "latitude": 46.689012,
-    "longitude": 14.198765,
-    "status": false,
-    "name": "\"Standort-5\""
+    "topic": "v3/lora-201124@ttn/devices/sats-modul-02/up",
+    "latitude": 46.611915,
+    "longitude": 14.302674
   }
 ]
