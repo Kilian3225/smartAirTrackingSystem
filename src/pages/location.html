@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Standort Details - Smart Air Tracking System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+
+    <script src="location.js" type="module"></script>
+    <script src="header.js" type="module"></script>
+    <script src="darkmode.js" type="module"></script>
+
+
+    <link rel="stylesheet" href="../../styles/layout.css">
+    <link rel="stylesheet" href="../../styles/location.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+
+</head>
+<body class="dark">
+<div class="overlay"></div>
+
+<header>
+    <div class="nav">
+        <div class="menu">
+            <label class="burger" for="burger">
+                <input type="checkbox" id="burger" autocomplete="off">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+        <div class="heading">
+            <img class="logo" src="../../images/Logo-white.png" alt="logo">
+            <img class="logo" src="../../images/Logo-black.png" alt="logo">
+            <p>Smart Air Tracking System</p>
+        </div>
+        <div class="subpages">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Über uns</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+        <div class="darkmode">
+            <div class="toggle-switch">
+                <label class="switch-label">
+                    <input type="checkbox" class="checkbox" id="darkmode-status">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <nav class="dropdown-menu">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Über uns</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Kontakt</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<div class="width-limiter">
+    <main>
+        <div class="main-container">
+            <div class="resizable stat">
+                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            </div>
+            <div class="resizable chart">
+                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
+            </div>
+            <div class="resizable stat">
+                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            </div>
+            <div class="resizable chart">
+                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
+            </div>
+            <div class="resizable chart">
+                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
+            </div>
+            <div class="resizable stat">
+                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            </div>
+            <div class="resizable chart">
+                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
+            </div>
+            <div class="resizable stat">
+                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            </div>
+            <div class="resizable chart">
+                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
+            </div>
+
+
+        </div>
+    </main>
+</div>
+
+
+<footer>
+</footer>
+</body>
+</html>
