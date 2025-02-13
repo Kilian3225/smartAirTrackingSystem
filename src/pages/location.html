@@ -10,9 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
 
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet"/>
+
     <script src="location.js" type="module"></script>
     <script src="header.js" type="module"></script>
     <script src="darkmode.js" type="module"></script>
+    <script src="map.js" type="module"></script>
 
 
     <link rel="stylesheet" href="../../styles/layout.css">
@@ -42,8 +46,6 @@
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Über uns</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Kontakt</a></li>
             </ul>
         </div>
         <div class="darkmode">
@@ -59,8 +61,6 @@
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">Über uns</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Kontakt</a></li>
         </ul>
     </nav>
 </header>
@@ -68,36 +68,37 @@
 
 <div class="width-limiter">
     <main>
-        <div class="main-container">
-            <div class="resizable stat">
-                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            </div>
-            <div class="resizable chart">
-                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
-            </div>
-            <div class="resizable stat">
-                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            </div>
-            <div class="resizable chart">
-                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
-            </div>
-            <div class="resizable chart">
-                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
-            </div>
-            <div class="resizable stat">
-                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            </div>
-            <div class="resizable chart">
-                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
-            </div>
-            <div class="resizable stat">
-                <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            </div>
-            <div class="resizable chart">
-                <iframe class="grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=1"></iframe>
-            </div>
+        <div class="map"></div>
+        <div class="general-info">
+            <H2 >Sensor Name Platzhalter</H2>
+            <div class="timeRange-container">
+                <p>Darstellungszeitraum</p>
+                <select id="timeRange" onchange="updateGrafanaURL()">
+                    <option value="now-1d">1 Tag</option>
+                    <option value="now-7d">1 Woche</option>
 
+                </select>
+            </div>
+            <div class="aggregationType-container">
+                <p>Aggregationstyp</p>
+                <select id="aggregationType" onchange="updateGrafanaURL()">
+                    <option value="now-1d">1 Tag</option>
+                    <option value="now-7d">1 Woche</option>
 
+                </select>
+            </div>
+        </div>
+        <div class="charts-container">
+            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+        </div>
+        <div class="stats-container">
+            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
         </div>
     </main>
 </div>

@@ -46,14 +46,7 @@ main .chart:not(.mobile){
     max-width: 500px;
 }
 
-.stat {
-    height: 150px;
-    width: 100px;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin: 10px 0;
-    justify-self: center;
-}
+
 
 .button{
     background-color: white;
@@ -63,16 +56,6 @@ main .chart:not(.mobile){
     padding: 4px 8px;
     cursor: pointer;
     font-weight: bold;
-}
-
-.chart {
-    width: 90%;
-    aspect-ratio: 16/9;
-    height: auto;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin: 10px 0;
-    justify-self: center;
 }
 
 .alert{
@@ -86,6 +69,15 @@ main .chart:not(.mobile){
     border: 2px solid #F7C752;
     color: black;
 }
+
+.alert input{
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid #F7C752;
+
+
+}
+
 .alert button{
     background: -webkit-linear-gradient(to right, #f45c43, #eb3349);
     background: linear-gradient(to right, #f45c43, #eb3349);

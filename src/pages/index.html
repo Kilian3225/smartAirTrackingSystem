@@ -17,6 +17,8 @@
     <script src="script.js" type="module"></script>
     <script src="header.js" type="module"></script>
     <script src="darkmode.js" type="module"></script>
+    <script src="alert.js" type="module"></script>
+    <script src="map.js" type="module"></script>
 
     <link rel="stylesheet" href="../../styles/layout.css">
     <link rel="stylesheet" href="../../styles/index.css">
@@ -46,8 +48,6 @@
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Über uns</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Kontakt</a></li>
             </ul>
         </div>
         <div class="darkmode">
@@ -63,8 +63,6 @@
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">Über uns</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Kontakt</a></li>
         </ul>
     </nav>
 </header>
@@ -91,13 +89,14 @@
                 <p>Lassen sie sich benachrichten, sollten
                     Kritische Feinstaubwerte erreicht werden
                 </p>
+                <input placeholder="Email adresse" type="text">
                 <button class="button">jetzt Anmelden</button>
             </div>
         </div>
         <div class="sensor-info">
-            <iframe class="chart grafana" src="https://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&from=1736857033000&to=1736857367000&timezone=browser&theme=dark&panelId=2&__feature.dashboardSceneSolo"></iframe>
+            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&from=1736857033000&to=1736857367000&timezone=browser&theme=dark&panelId=2&__feature.dashboardSceneSolo"></iframe>
+            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
             <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&from=1736857033000&to=1736857367000&timezone=browser&theme=light&panelId=2&__feature.dashboardSceneSolo"></iframe>
-            <iframe class="chart grafana" src="https://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&from=1736857033000&to=1736857367000&timezone=browser&theme=light&panelId=2&__feature.dashboardSceneSolo"></iframe>
             <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
         </div>
     </main>
