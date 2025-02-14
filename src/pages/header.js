@@ -5,7 +5,7 @@ const logo = document.querySelector('.logo');
 checkbox.addEventListener('change', () => {
     if (checkbox.checked) {
 
-        menu.style.height = "214px";
+        menu.style.height = "108px";
         overlay.style.display = "block";
     } else {
         menu.style.height = "0";

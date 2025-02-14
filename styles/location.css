@@ -75,7 +75,6 @@ select{
     gap: 10px;
 }
 
-
 @media (min-width: 768px)
 {
     main{
@@ -103,7 +102,7 @@ select{
         display: flex;
         align-items: center;
         transform: translateX(30px);
-        gap: 20px;
+        gap: 30px;
 
     }
     .aggregationType-container{
@@ -113,8 +112,7 @@ select{
         flex-direction: row;
         align-items: center;
         transform: translateX(30px);
-
-        gap: 20px;
+        gap: 30px;
     }
     .timeRange-container p, .aggregationType-container p {
         margin: 0;
@@ -122,29 +120,37 @@ select{
     .charts-container{
         grid-area: 3/1/6/2;
     }
-    .stats-container{
-        grid-area: 5/2/6/3;
-        flex-wrap: wrap;
-        flex-direction: row;
-        margin: 40px;
 
+    .stats-container {
+        grid-area: 5/2/6/3;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        width: 100%;
+        padding: 15px 30px;
+        box-sizing: border-box;
     }
 
     .stat {
-        width: 47%;
+        width: 100%;
         height: auto;
-
+        aspect-ratio: 2/3;
         border: 2px solid black;
         border-radius: 10px;
-        justify-self: center;
     }
-    .chart {
 
-        width: auto;
-        height: auto;
+    .chart {
+        width: calc(100% - 60px);
+        aspect-ratio: 16/9;
         border: 2px solid black;
         border-radius: 10px;
         justify-self: center;
+        margin: 15px auto;
+
+    }
+
+    select{
+        transform: scale(1.2);
     }
 
 }
