@@ -118,6 +118,7 @@ header {
     max-width: 1440px;
     margin: 0 auto;
     width: 100%;
+    min-height: 100vh;
     box-sizing: border-box;
 
     -webkit-box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
@@ -142,21 +143,20 @@ header {
 }
 
 .stat {
-    height: 150px;
-    width: 100px;
+    height: calc((100vw * 2/3  - 20px)*9/16);
+    aspect-ratio: 2/3;
+
     border: 2px solid black;
     border-radius: 10px;
-    margin: 10px 0;
     justify-self: center;
 }
 
 .chart {
-    width: 90%;
+
+    width: calc(100vw * 2/3  - 20px);
     aspect-ratio: 16/9;
-    height: auto;
     border: 2px solid black;
     border-radius: 10px;
-    margin: 10px 0;
     justify-self: center;
 }
 

@@ -71,34 +71,45 @@
         <div class="map"></div>
         <div class="general-info">
             <H2 >Sensor Name Platzhalter</H2>
-            <div class="timeRange-container">
-                <p>Darstellungszeitraum</p>
-                <select id="timeRange" onchange="updateGrafanaURL()">
-                    <option value="now-1d">1 Tag</option>
-                    <option value="now-7d">1 Woche</option>
-
-                </select>
-            </div>
-            <div class="aggregationType-container">
-                <p>Aggregationstyp</p>
-                <select id="aggregationType" onchange="updateGrafanaURL()">
-                    <option value="now-1d">1 Tag</option>
-                    <option value="now-7d">1 Woche</option>
-
-                </select>
-            </div>
         </div>
-        <div class="charts-container">
-            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
-            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
-            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
-            <iframe class="chart grafana" src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+        <div class="timeRange-container">
+            <p>Darstellungszeitraum</p>
+            <select id="timeRange" onchange="updateGrafanaURL()">
+                <option value="now-1d">1 Tag</option>
+                <option value="now-7d">1 Woche</option>
+
+            </select>
         </div>
-        <div class="stats-container">
-            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
-            <iframe class="stat grafana" src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2" ></iframe>
+        <div class="aggregationType-container">
+            <p>Aggregationstyp</p>
+            <select id="aggregationType" onchange="updateGrafanaURL()">
+                <option value="now-1d">1 Tag</option>
+                <option value="now-7d">1 Woche</option>
+
+            </select>
+        </div>
+
+        <div class="statistics-container">
+            <div class="charts-container">
+                <iframe class="chart grafana"
+                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                <iframe class="chart grafana"
+                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                <iframe class="chart grafana"
+                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                <iframe class="chart grafana"
+                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+            </div>
+            <div class="stats-container">
+                <iframe class="stat grafana"
+                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                <iframe class="stat grafana"
+                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                <iframe class="stat grafana"
+                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                <iframe class="stat grafana"
+                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+            </div>
         </div>
     </main>
 </div>
