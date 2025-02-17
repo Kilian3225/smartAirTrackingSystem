@@ -25,19 +25,7 @@ main
     align-items: center;
 }
 
-.sensor-info {
-    grid-area: 2/2/4/3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    max-height: 90vh;
-}
-main .chart:not(.mobile){
-    display: none;
-}
-
-.description {margin: 10px 10px 30px 10px;}
+.description {margin: 10px;}
 .description h2{margin: 0 5px;}
 .description button{margin-left: 20px;}
 .description p {
@@ -46,7 +34,18 @@ main .chart:not(.mobile){
     max-width: 500px;
 }
 
+.sensor-info{
+    grid-area: 2/2/4/3;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
 
+.stat{
+    width: calc(100vw * 1/3 - 20px);
+    height: auto;
+    margin-top: 10px;
+}
 
 .button{
     background-color: white;
@@ -64,7 +63,7 @@ main .chart:not(.mobile){
     border-radius: 10px;
     padding: 5px;
     font-size: 0.8rem;
-    margin: 5px;
+    margin: 15px 5px 5px 5px;
     background: #FEF7D1;
     border: 2px solid #F7C752;
     color: black;
@@ -98,26 +97,33 @@ main .chart:not(.mobile){
     {
         grid-area: 3/1/4/3
     }
-    .sensor-info {
+    .description{
+        margin-top: 0;
+    }
+
+    .sensor-info
+    {
         grid-area: 2/1/3/3;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-evenly;
     }
-    .sensor-info iframe:nth-child(n+4) {
-        display: none;
+    .stat{
+        margin: 0;
     }
+
 }
 
 @media (min-width: 768px)
 {
     main {
-        grid-template-rows: 60vh 40vh;
+        grid-template-rows: 55vh 40vh;
         grid-template-columns: 30% 70%;
         margin-right: 30px;
     }
     .map{
         grid-area: 1/2/2/3;
-        height: 60vh;
+        height: 55vh;
+        transform: translateY(20px);
         border-radius: 20px;
         margin: 10px;
     }
@@ -134,18 +140,12 @@ main .chart:not(.mobile){
 
     .sensor-info{
         grid-area: 1/1/3/2;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 120px);
-        grid-auto-rows: 170px;
+        flex-direction: row;
+        align-items: flex-start;
         justify-content: space-evenly;
-        overflow: visible;
-
     }
-
-    .sensor-info .chart{
-        grid-column: span 2;
-        display: inline-block !important;
-        height: 150px;
-        width: 100%;
+    .stat{
+        width: calc(50% - 40px);
+        margin-top: 30px;
     }
 }
