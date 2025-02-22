@@ -60,3 +60,4 @@ export async function initializeMap(mapDiv, locationViewParameter = 0, singleLoc
 
     createMap();
 }
+
