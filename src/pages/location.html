@@ -75,40 +75,47 @@
         <div class="timeRange-container">
             <p>Darstellungszeitraum</p>
             <select id="timeRange" onchange="updateGrafanaURL()">
-                <option value="now-1d">1 Tag</option>
-                <option value="now-7d">1 Woche</option>
+                <option value="1d">1 Tag</option>
+                <option value="7d">1 Woche</option>
+                <option value="30d">1 Monat</option>
+                <option value="90d">3 Monate</option>
+                <option value="180d">6 Monate</option>
+                <option value="1y">1 Jahr</option>
+                <option value="5y">5 Jahre</option>
 
             </select>
         </div>
         <div class="aggregationType-container">
             <p>Aggregationstyp</p>
-            <select id="aggregationType" onchange="updateGrafanaURL()">
-                <option value="now-1d">1 Tag</option>
-                <option value="now-7d">1 Woche</option>
-
+            <select id="aggregationType" >
+                <option value="last">aktueller Wert</option>
+                <option value="mean">Durchschnitt</option>
+                <option value="min">Minimum</option>
+                <option value="max">Maximum</option>
             </select>
         </div>
 
         <div class="statistics-container">
             <div class="charts-container">
                 <iframe class="chart grafana"
-                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                        src=http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-query0=&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=2&__feature.dashboardSceneSolo"></iframe>
                 <iframe class="chart grafana"
-                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-query0=&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=4&__feature.dashboardSceneSolo"></iframe>
                 <iframe class="chart grafana"
-                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
                 <iframe class="chart grafana"
-                        src="http://3.73.175.179:3000/d-solo/fec2gbzcq8740f/p10-p25-modul1u2?orgId=1&timezone=browser&theme=dark&panelId=3&__feature.dashboardSceneSolo"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=1&__feature.dashboardSceneSolo"></iframe>
             </div>
             <div class="stats-container">
                 <iframe class="stat grafana"
-                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=7&__feature.dashboardSceneSolo"></iframe>
                 <iframe class="stat grafana"
-                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=8&__feature.dashboardSceneSolo"></iframe>
                 <iframe class="stat grafana"
-                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=6&__feature.dashboardSceneSolo"></iframe>
                 <iframe class="stat grafana"
-                        src="http://localhost:3000/d-solo/ae5i303jvg6iob/testdata?orgId=1&from=1732928100028&to=1732934862431&theme=light&panelId=2"></iframe>
+                        src="http://3.73.175.179:3000/d-solo/dedfrz8e2ocn4f/graphen?orgId=1&timezone=browser&var-locationId=1&var-zeitbereich=30d&var-aggregationType=mean&theme=dark&panelId=5&__feature.dashboardSceneSolo"
+                ></iframe>
             </div>
         </div>
     </main>
