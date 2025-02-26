@@ -8,24 +8,32 @@ if (selectedLocationIndex === null) {
     console.error('Kein Standort ausgewählt');
 }
 
-const response = await fetch('/data/locations.json');
+// Use an immediately invoked async function to set up the page
+(async function initializePage() {
+    try {
+        const response = await fetch('/data/locations.json');
 
-if (!response.ok)
-{
-    throw new Error('Fehler beim Laden der Locations');
-}
+        if (!response.ok) {
+            throw new Error('Fehler beim Laden der Locations');
+        }
 
-const locations = await response.json();
-const selectedLocation = locations[selectedLocationIndex];
+        const locations = await response.json();
+        const selectedLocation = locations[selectedLocationIndex];
 
-console.log(selectedLocation);
+        console.log(selectedLocation);
 
-if (selectedLocationIndex !== null) {
-    initializeMap(mapDiv, parseInt(selectedLocationIndex), true);
-}
+        if (selectedLocationIndex !== null) {
+            initializeMap(mapDiv, parseInt(selectedLocationIndex), true);
+        }
 
-window.navigateToLocation = function(locationIndex)
-{
+        // Initialize Grafana URLs with current parameters instead of reloading
+        updateGrafanaUrlInitial();
+    } catch (error) {
+        console.error('Fehler bei der Initialisierung:', error);
+    }
+})();
+
+window.navigateToLocation = function(locationIndex) {
     sessionStorage.setItem('selectedLocationIndex', locationIndex);
     window.location.href = detailsUrl;  // Navigate to location.html
 }
@@ -33,8 +41,18 @@ window.navigateToLocation = function(locationIndex)
 const timeRangeElement = document.getElementById('timeRange');
 const aggregationTypeElement = document.getElementById('aggregationType');
 
-timeRangeElement.addEventListener('change', updateGrafanaUrl)
-aggregationTypeElement.addEventListener('change', updateGrafanaUrl)
+// Only add event listeners if elements exist
+if (timeRangeElement) {
+    timeRangeElement.addEventListener('change', function(event) {
+        updateGrafanaUrl(event, 'iframe.grafana');
+    });
+}
+
+if (aggregationTypeElement) {
+    aggregationTypeElement.addEventListener('change', function(event) {
+        updateGrafanaUrl(event, 'iframe.stat.grafana');
+    });
+}
 
 function timeRangeToMilliseconds(range) {
     const now = Date.now();
@@ -50,49 +68,53 @@ function timeRangeToMilliseconds(range) {
     return timeMap[range] ? now - timeMap[range] : now - 86400000; // Standard: 1 Tag
 }
 
-function updateGrafanaUrl(event)
-{
-    const timeRange = timeRangeElement.value;
-    const aggregationType = aggregationTypeElement.value;
-
-    const fromTime = timeRangeToMilliseconds(timeRange);
-    const toTime = Date.now();
-
-    // const sessionStorage.getItem('selectedLocationIndex');
-    let iframeSelector = '';
-    if (event.target === aggregationTypeElement)
-        iframeSelector = 'iframe.stat.grafana';
-    else
-        iframeSelector = 'iframe.grafana';
-
-    const iframes = document.querySelectorAll(iframeSelector);
-
-    iframes.forEach(iframe =>
-    {
-        console.log("alte src:",iframe.src);
-        let url = new URL(iframe.src);
-
-        url.searchParams.set('var-zeitbereich', timeRange);
-        url.searchParams.set('var-aggregationsType', aggregationType);
-        url.searchParams.set('var-locationId', (parseInt(selectedLocationIndex)+1).toString());
-        url.searchParams.set('from', fromTime.toString());
-        url.searchParams.set('to', toTime.toString());
-
-        iframe.src = url.toString();
-        console.log("neue src:", iframe.src);
-    })
-}
-
-window.onload = () => {
-    console.log("window.onload ausgelöst");
-
+// Initial URL setup without triggering reload
+function updateGrafanaUrlInitial() {
     if (!timeRangeElement || !aggregationTypeElement) {
         console.error("timeRangeElement oder aggregationTypeElement nicht gefunden");
         return;
     }
 
-    console.log("updateGrafanaUrl wird aufgerufen...");
-    updateGrafanaUrl(new Event('change'));
-    console.log("updateGrafanaUrl wurde aufgerufen");
-};
+    const timeRange = timeRangeElement.value;
+    const aggregationType = aggregationTypeElement.value;
 
+    updateIframeUrls('iframe.grafana', timeRange, aggregationType);
+    updateIframeUrls('iframe.stat.grafana', timeRange, aggregationType);
+
+    console.log("Grafana URLs wurden initial konfiguriert");
+}
+
+// Update function used for both initial setup and change events
+function updateGrafanaUrl(event, iframeSelector) {
+    const timeRange = timeRangeElement.value;
+    const aggregationType = aggregationTypeElement.value;
+
+    updateIframeUrls(iframeSelector, timeRange, aggregationType);
+}
+
+// Helper function to update iframe URLs
+function updateIframeUrls(iframeSelector, timeRange, aggregationType) {
+    const fromTime = timeRangeToMilliseconds(timeRange);
+    const toTime = Date.now();
+
+    const iframes = document.querySelectorAll(iframeSelector);
+
+    iframes.forEach(iframe => {
+        // Check if the iframe already has a src attribute
+        if (iframe.getAttribute('src')) {
+            console.log("Aktualisiere src:", iframe.src);
+            let url = new URL(iframe.src);
+
+            url.searchParams.set('var-zeitbereich', timeRange);
+            url.searchParams.set('var-aggregationsType', aggregationType);
+            url.searchParams.set('var-locationId', (parseInt(selectedLocationIndex)+1).toString());
+            url.searchParams.set('from', fromTime.toString());
+            url.searchParams.set('to', toTime.toString());
+
+            iframe.src = url.toString();
+            console.log("Neue src:", iframe.src);
+        } else {
+            console.log("Iframe hat noch keine src, wird übersprungen");
+        }
+    });
+}
