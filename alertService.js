@@ -1,137 +1,104 @@
 import express from 'express';
 import { InfluxDB } from '@influxdata/influxdb-client';
-import sqlite3 from 'sqlite3';
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import fs from 'fs/promises';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
+const url = process.env.DATABASE_URL;
+const token = process.env.DATABASE_API_TOKEN;
+const org = process.env.DATABASE_ORG;
+const bucket = process.env.DATABASE_BUCKET;
+const EMAILS_FILE = './data/emails.json';
+const PM25_THRESHOLD = 50;
+const PM10_THRESHOLD = 80;
+const CHECK_INTERVAL = 60000;
+
+const queryAPI = new InfluxDB({ url, token }).getQueryApi(org);
 const app = express();
-app.use(express.json());
 
-// InfluxDB Setup (verwendet die gleichen Umgebungsvariablen wie der Hauptserver)
-const influxDB = new InfluxDB({
-    url: process.env.DATABASE_URL,
-    token: process.env.DATABASE_API_TOKEN
-});
-const queryAPI = influxDB.getQueryApi(process.env.DATABASE_ORG);
-
-// SQLite Setup
-const db = new sqlite3.Database('./data/alert_subscribers.db');
-db.run(`CREATE TABLE IF NOT EXISTS alert_subscribers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE NOT NULL,
-    threshold FLOAT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)`);
-
-// E-Mail-Transporter Setup
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT) || 587,
-    secure: false,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-    }
-});
-
-// Funktion zum Abrufen der aktuellen Feinstaubwerte
-async function getCurrentPM25Value() {
+async function fetchAirQualityData() {
     const fluxQuery = `
-        from(bucket: "${process.env.DATABASE_BUCKET}")
-            |> range(start: -5m)
-            |> filter(fn: (r) => r._measurement == "mqtt_consumer")
-            |> filter(fn: (r) => r._field == "PM25")
-            |> last()
-    `;
-
+       from(bucket: "${bucket}")
+          |> range(start: -30d)
+          |> filter(fn: (r) => r._measurement == "mqtt_consumer")
+          |> filter(fn: (r) => r._field == "pm25" or r._field == "pm10")
+          |> pivot(rowKey: ["_time", "topic"], columnKey: ["_field"], valueColumn: "_value")
+          |> group(columns: ["topic"])
+          |> last(column: "topic")`;
     try {
+        let pmData = {};
         for await (const { values, tableMeta } of queryAPI.iterateRows(fluxQuery)) {
             const row = tableMeta.toObject(values);
-            return row._value;
+            const topic = row.topic;
+            if (!pmData[topic]) {
+                pmData[topic] = { pm25: null, pm10: null };
+            }
+            if (row.pm25 !== undefined) pmData[topic].pm25 = parseFloat(row.pm25);
+            if (row.pm10 !== undefined) pmData[topic].pm10 = parseFloat(row.pm10);
         }
-        return null;
+        return pmData;
     } catch (error) {
-        console.error('Error querying PM2.5 data:', error);
+        console.error('Error querying air quality data:', error);
         return null;
     }
 }
 
-// Überprüfungsfunktion für Grenzwerte
-async function checkThresholds() {
-    const currentValue = await getCurrentPM25Value();
-    if (currentValue === null) return;
-
-    db.all('SELECT * FROM alert_subscribers', [], async (err, subscribers) => {
-        if (err) {
-            console.error('Error reading subscribers:', err);
+async function sendEmailNotification(pmData) {
+    try {
+        const emailList = JSON.parse(await fs.readFile(EMAILS_FILE, 'utf-8'));
+        if (!emailList || emailList.length === 0) {
+            console.error('No email addresses found in emails.json');
             return;
         }
 
-        for (const subscriber of subscribers) {
-            if (currentValue > subscriber.threshold) {
-                const mailOptions = {
-                    from: '"Feinstaubwarnung" <noreply@beispiel.de>',
-                    to: subscriber.email,
-                    subject: 'Kritischer Feinstaubwert erreicht',
-                    text: `
-                        Achtung: Der aktuelle Feinstaubwert (${currentValue} µg/m³) 
-                        hat Ihren eingestellten Grenzwert von ${subscriber.threshold} µg/m³ überschritten.
-                        
-                        Diese Nachricht wurde automatisch generiert.
-                    `.trim()
-                };
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
 
-                try {
-                    await transporter.sendMail(mailOptions);
-                } catch (error) {
-                    console.error('Error sending email:', error);
-                }
+        let alertMessage = 'Warning! Air quality levels are high:\n';
+        let shouldSend = false;
+
+        for (const [topic, data] of Object.entries(pmData)) {
+            if (data.pm25 > PM25_THRESHOLD || data.pm10 > PM10_THRESHOLD) {
+                shouldSend = true;
+                alertMessage += `\n${topic}: PM2.5: ${data.pm25} µg/m³ (Threshold: ${PM25_THRESHOLD} µg/m³), PM10: ${data.pm10} µg/m³ (Threshold: ${PM10_THRESHOLD} µg/m³)`;
             }
         }
-    });
+
+        if (!shouldSend) {
+            console.log('Air quality is within safe limits.');
+            return;
+        }
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: emailList.join(','),
+            subject: 'Air Quality Alert',
+            text: alertMessage
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log('Alert email sent successfully.');
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
 }
 
-// API Route für Anmeldungen
-app.post('/api/alert/subscribe', (req, res) => {
-    const { email } = req.body;
-    const threshold = 50; // Fester Grenzwert
-
-    if (!email) {
-        return res.status(400).json({
-            success: false,
-            error: 'E-Mail ist erforderlich'
-        });
+async function monitorAirQuality() {
+    const pmData = await fetchAirQualityData();
+    if (pmData) {
+        await sendEmailNotification(pmData);
     }
+}
 
-    db.run(
-        'INSERT INTO alert_subscribers (email, threshold) VALUES (?, ?)',
-        [email, threshold],
-        function(err) {
-            if (err) {
-                if (err.code === 'SQLITE_CONSTRAINT') {
-                    res.status(400).json({
-                        success: false,
-                        error: 'Diese E-Mail-Adresse ist bereits registriert'
-                    });
-                } else {
-                    console.error('Database error:', err);
-                    res.status(500).json({
-                        success: false,
-                        error: 'Interner Server-Fehler'
-                    });
-                }
-                return;
-            }
-            res.json({ success: true });
-        }
-    );
-});
+setInterval(monitorAirQuality, CHECK_INTERVAL);
+monitorAirQuality(); // Initial check
+sendEmailNotification()
 
-// Starte Überprüfung alle 5 Minuten
-setInterval(checkThresholds, 5 * 60 * 1000);
-
-// Server auf anderem Port starten
-const PORT = 3002;
-app.listen(PORT, () => console.log(`Alert Service running on port ${PORT}`));
+app.listen(3002, () => console.log('Air Quality Monitor running on port 3002'));
