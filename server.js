@@ -112,6 +112,7 @@ app.get('/locations', async (req, res) => {
     }
 });
 
+
 // Schedule the data update every hour (3600000 ms)
 setInterval(updateLocationsData, 3600000);
 updateLocationsData(); // Initial update

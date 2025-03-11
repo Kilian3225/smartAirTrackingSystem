@@ -59,7 +59,7 @@ main
 
 .alert{
     width: 90%;
-    max-width: 250px;
+    max-width: 300px;
     border-radius: 10px;
     padding: 5px;
     font-size: 0.8rem;
@@ -70,12 +70,24 @@ main
 }
 
 .alert input{
-    margin-bottom: 10px;
+
     border-radius: 5px;
     border: 2px solid #F7C752;
-
-
 }
+
+.alert p{
+    margin: 5px auto;
+}
+
+#pm25-input{
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.threshold-inputs input{
+    width: 100px;
+}
+
 
 .alert button{
     background: -webkit-linear-gradient(to right, #f45c43, #eb3349);
