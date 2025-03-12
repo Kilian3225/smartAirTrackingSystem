@@ -3,6 +3,7 @@ import { InfluxDB } from '@influxdata/influxdb-client';
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
 import nodemailer from 'nodemailer';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -12,8 +13,8 @@ const org = process.env.DATABASE_ORG;
 const bucket = process.env.DATABASE_BUCKET;
 const EMAILS_FILE = './data/emails.json';
 const PM25_THRESHOLD = 50;
-const PM10_THRESHOLD = 80;
-const CHECK_INTERVAL = 60000;
+const PM10_THRESHOLD = 2;
+const CHECK_INTERVAL = 60000*20;
 
 const queryAPI = new InfluxDB({ url, token }).getQueryApi(org);
 const app = express();
@@ -120,8 +121,38 @@ async function monitorAirQuality()
 }
 
 // Add this to your Express app
-
+app.use(cors());
 app.use(express.json());
+
+//popup:
+app.get('/api/alerts', async (req, res) => {
+    try {
+        const pmData = await fetchAirQualityData();
+        if (!pmData) return res.json({ alerts: [] });
+
+        let alerts = [];
+
+        for (const [topic, data] of Object.entries(pmData)) {
+            const moduleName = topic.split('/').filter(part => part.includes('modul'))[0] || topic;
+
+            if ((data.pm25 !== null && data.pm25 > PM25_THRESHOLD) ||
+                (data.pm10 !== null && data.pm10 > PM10_THRESHOLD)) {
+
+                alerts.push({
+                    module: moduleName,
+                    message: `PM2.5: ${data.pm25} µg/m³, PM10: ${data.pm10} µg/m³`
+                });
+            }
+        }
+
+        res.json({ alerts });
+    } catch (error) {
+        console.error('Error fetching alerts:', error);
+        res.status(500).json({ alerts: [] });
+    }
+});
+
+
 
 // Define the endpoint to handle email subscriptions
 app.post('/api/subscribe', async (req, res) => {

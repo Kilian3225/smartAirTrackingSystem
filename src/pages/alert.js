@@ -11,16 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitButton.addEventListener('click', async () => {
         const email = emailInput.value.trim();
+        const pm25 = pm25Input.value.trim() !== '' ? parseInt(pm25Input.value) : DEFAULT_PM25_THRESHOLD;
+        const pm10 = pm10Input.value.trim() !== '' ? parseInt(pm10Input.value) : DEFAULT_PM10_THRESHOLD;
+
 
         // Validate email
         if (!isValidEmail(email)) {
             showMessage('Bitte geben Sie eine gültige E-Mail-Adresse ein.', 'error');
             return;
         }
-
-        // Get threshold values (use defaults if empty)
-        const pm25 = pm25Input.value.trim() !== '' ? parseInt(pm25Input.value) : DEFAULT_PM25_THRESHOLD;
-        const pm10 = pm10Input.value.trim() !== '' ? parseInt(pm10Input.value) : DEFAULT_PM10_THRESHOLD;
 
         // Validate thresholds are numbers
         if (isNaN(pm25) || isNaN(pm10)) {
@@ -29,14 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('/api/subscribe', {
+            const response = await fetch('http://localhost:3002/api/subscribe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     email,
-                    thresholds: {
+                    thresholds:
+                    {
                         pm25,
                         pm10
                     }
@@ -85,6 +85,42 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             messageEl.textContent = '';
             messageEl.className = 'alert-message';
-        }, 5000);
+        }, 3000);
     }
 });
+
+
+
+
+//popup:
+async function fetchAlerts() {
+    try {
+        const response = await fetch('http://localhost:3002/api/alerts');
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const data = await response.json();
+        updateAlertsUI(data.alerts);
+    } catch (error) {
+        console.error('Error fetching alerts:', error);
+    }
+}
+
+function updateAlertsUI(alerts) {
+    const messageContainer = document.querySelector('.card .message');
+    if (!messageContainer) return;
+
+    if (alerts.length === 0) {
+        messageContainer.innerHTML = '<p>Keine aktuellen Warnungen.</p>';
+        return;
+    }
+
+    messageContainer.innerHTML = ' <h2>Luftqualitätswarnung</h2>\n' +
+        '            <p>an den folgenden Standorten befindet sich die Luftqualität in einem kritischem Bereich:</p>\n' +
+        '        ' + alerts
+        .map(alert => `<p><strong>${alert.module}:</strong> ${alert.message}</p>`)
+        .join('');
+}
+
+// Fetch alerts every 30 seconds
+setInterval(fetchAlerts, 30000);
+fetchAlerts(); // Initial call

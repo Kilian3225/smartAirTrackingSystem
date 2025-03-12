@@ -9,8 +9,8 @@
   {
     "email": "wdkucd@gmail.com",
     "thresholds": {
-      "pm25": 40,
-      "pm10": 8
+      "pm25": 50,
+      "pm10": 2
     }
   }
 ]

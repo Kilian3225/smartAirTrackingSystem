@@ -108,3 +108,52 @@
 
 
 
+
+
+
+/* From Uiverse.io by Yaya12085 */
+.card {
+    display: flex;
+    gap: 10px;
+    background: var(--bg);
+    content: var(--text);
+    border-radius: 0.5rem;
+    width: fit-content;
+    max-width: 700px;
+    box-shadow:
+            5px 20px 25px -5px rgba(0, 0, 0, 0.1),
+            5px 10px 10px -5px rgba(0, 0, 0, 0.04);
+    z-index: 10000;
+    padding: 10px 15px;
+    border: 2px solid black;
+}
+
+.image {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fee2e2;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+}
+
+.image svg {
+    color: #dc2626;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.card h2, .card h3
+{
+    margin: 5px 0;
+}
+
+
+
+
+
+
