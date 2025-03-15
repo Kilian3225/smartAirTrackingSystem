@@ -14,7 +14,7 @@ if (selectedLocationIndex === null) {
         const response = await fetch('/data/locations.json');
 
         if (!response.ok) {
-            throw new Error('Fehler beim Laden der Locations');
+            new Error('Fehler beim Laden der Locations');
         }
 
         const locations = await response.json();

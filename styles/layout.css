@@ -8,6 +8,11 @@ body {
     background: var(--bg);
     transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
+
+select, select option {
+    font-family: "Outfit", Arial;
+}
+
 a:link, a:visited {
     text-decoration: none;
     color: inherit;

@@ -32,7 +32,7 @@
 <header>
     <div class="nav">
         <div class="menu">
-            <label class="burger" for="burger">
+            <label class="burger hover-fade" for="burger">
                 <input type="checkbox" id="burger" autocomplete="off">
                 <span></span>
                 <span></span>
@@ -40,11 +40,11 @@
             </label>
         </div>
         <div class="heading">
-            <img class="logo" src="../../images/Logo-white.png" alt="logo">
-            <img class="logo" src="../../images/Logo-black.png" alt="logo">
+            <img class="logo hover-fade" src="../../images/Logo-white.png" alt="logo">
+            <img class="logo hover-fade" src="../../images/Logo-black.png" alt="logo">
             <p>Smart Air Tracking System</p>
         </div>
-        <div class="subpages">
+        <div class="subpages hover-fade">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="http://projects.htl-klu.at/Projekt_2425/pr5ahbg24054/Homepage/index.html">Über uns</a></li>
@@ -61,25 +61,24 @@
     </div>
     <nav class="dropdown-menu">
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="http://projects.htl-klu.at/Projekt_2425/pr5ahbg24054/Homepage/index.html">Über uns</a></li>
+            <li><a class="hover-fade" href="index.html">Home</a></li>
+            <li><a class="hover-fade" href="http://projects.htl-klu.at/Projekt_2425/pr5ahbg24054/Homepage/index.html">Über uns</a></li>
         </ul>
     </nav>
 </header>
-
 <div class="card">
-    <div class="header">
-        <div class="image">
-            <svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
-                <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                      stroke-linejoin="round" stroke-linecap="round"></path>
-            </svg>
-        </div>
-        <div class="message">
-            <h3>Luftqualitätswarnung</h3>
-            <p>an den folgenden Standorten befindet die Luftqualität in einem kritischem Bereich:</p>
-        </div>
+    <div class="image">
+        <svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
+            <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  stroke-linejoin="round" stroke-linecap="round"></path>
+        </svg>
     </div>
+    <div class="message">
+        <h3>Luftqualitätswarnung</h3>
+        <p>an den folgenden Standorten befindet sich die Luftqualität in einem kritischem Bereich:</p>
+        <p>safs-modul-01: PM2.5: 4 μg/m³, PM10: 17 μg/m³</p>
+    </div>
+    <button class="close-btn hover-fade" id="close-popup">×</button>
 </div>
 
 
@@ -95,7 +94,7 @@
                     und kann flexibel durch weitere Sensoren erweitert werden, um so noch
                     präzisere Daten zu sammeln und neue Standorte abzudecken.
                 </p>
-                <button class="button" onclick="window.location.href='http://projects.htl-klu.at/Projekt_2425/pr5ahbg24054/Homepage/index.html'">Mehr Details</button>
+                <button class="button hover-fade" onclick="window.location.href='http://projects.htl-klu.at/Projekt_2425/pr5ahbg24054/Homepage/index.html'">Mehr Details</button>
             </div>
             <div class="alert">
                 <h2>Extremwert-Warnung</h2>
@@ -108,7 +107,7 @@
                     <input id="pm25-input" placeholder="pm2.5" type="text">
                     <input id="pm10-input" placeholder="pm10" type="text">
                 </div>
-                <button class="button">jetzt Anmelden</button>
+                <button class="button hover-fade">jetzt Anmelden</button>
             </div>
         </div>
         <div class="sensor-info">
@@ -118,8 +117,5 @@
     </main>
 </div>
 
-
-<footer>
-</footer>
 </body>
 </html>

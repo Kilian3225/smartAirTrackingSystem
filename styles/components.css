@@ -109,23 +109,33 @@
 
 
 
-
+/*z-index: 100;*/
+/*position: fixed;*/
+/*width: 100%;*/
+/*background: var(--bg-nav);*/
+/*transition: background 500ms ease-in-out;*/
 
 /* From Uiverse.io by Yaya12085 */
 .card {
+    z-index: 100;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     gap: 10px;
-    background: var(--bg);
-    content: var(--text);
-    border-radius: 0.5rem;
+    color: black;
+    border-radius: 10px;
     width: fit-content;
-    max-width: 700px;
+    max-width: 80%;
     box-shadow:
             5px 20px 25px -5px rgba(0, 0, 0, 0.1),
             5px 10px 10px -5px rgba(0, 0, 0, 0.04);
-    z-index: 10000;
-    padding: 10px 15px;
-    border: 2px solid black;
+    padding: 10px;
+    background: #FEF7D1;
+    border: 2px solid #F7C752;
 }
 
 .image {
@@ -147,11 +157,37 @@
     height: 1.5rem;
 }
 
-.card h2, .card h3
-{
+.card h2, .card h3, .card p {
     margin: 5px 0;
 }
 
+/* Simple Close button styles */
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.hover-fade {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.hover-fade:hover {
+    opacity: 0.7;
+}
 
 
 

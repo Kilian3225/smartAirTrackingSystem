@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        try {
+        try
+        {
             const response = await fetch('http://localhost:3002/api/subscribe', {
                 method: 'POST',
                 headers: {
@@ -91,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
 //popup:
 async function fetchAlerts() {
     try {
@@ -114,11 +114,11 @@ function updateAlertsUI(alerts) {
         return;
     }
 
-    messageContainer.innerHTML = ' <h2>Luftqualitätswarnung</h2>\n' +
-        '            <p>an den folgenden Standorten befindet sich die Luftqualität in einem kritischem Bereich:</p>\n' +
-        '        ' + alerts
-        .map(alert => `<p><strong>${alert.module}:</strong> ${alert.message}</p>`)
-        .join('');
+    messageContainer.innerHTML = '<h2>Luftqualitätswarnung</h2>\n' +
+        '<p>an den folgenden Standorten befindet sich die Luftqualität in einem kritischem Bereich:</p>\n' +
+        alerts.map((alert, index) =>
+            `<p><strong><a href="#" class="hover-fade" onclick="navigateToLocation(${index})">${alert.module}</a>:</strong> ${alert.message}</p>`
+        ).join('');
 }
 
 // Fetch alerts every 30 seconds

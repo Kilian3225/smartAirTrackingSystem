@@ -14,7 +14,7 @@ const bucket = process.env.DATABASE_BUCKET;
 const EMAILS_FILE = './data/emails.json';
 const PM25_THRESHOLD = 50;
 const PM10_THRESHOLD = 2;
-const CHECK_INTERVAL = 60000*20;
+const CHECK_INTERVAL = 60000*60;
 
 const queryAPI = new InfluxDB({ url, token }).getQueryApi(org);
 const app = express();
@@ -95,6 +95,16 @@ async function sendEmailNotification(pmData) {
             alertHtmlMessage += `<p>Ihre Schwellwerte: PM2.5: ${pm25Threshold} µg/m³, PM10: ${pm10Threshold} µg/m³</p>`;
             alertHtmlMessage += `<p>Weitere Informationen finden sie unter: <a href="https://smartairtracking.click">smartairtracking.click</a></p>`;
 
+            // Create a simple token (for production, use a more secure method)
+            const unsubscribeToken = Buffer.from(emailAddress).toString('base64');
+
+            // Add unsubscribe link
+            alertHtmlMessage += `<p style="margin-top: 20px; font-size: 12px; color: #666;">
+                Um sich von diesen Benachrichtigungen abzumelden, 
+                <a href="http://localhost:3002/api/unsubscribe?email=${encodeURIComponent(emailAddress)}&token=${unsubscribeToken}">
+                klicken Sie hier</a>
+            </p>`;
+
             await transporter.sendMail({
                 from: process.env.SMTP_USER,
                 to: emailAddress,
@@ -104,6 +114,7 @@ async function sendEmailNotification(pmData) {
 
             console.log(`Alert email sent to ${emailAddress}`);
         }
+
     } catch (error) {
         console.error('Error sending email:', error);
     }
@@ -226,6 +237,73 @@ app.post('/api/subscribe', async (req, res) => {
             success: false,
             message: 'Server error processing subscription'
         });
+    }
+});
+
+app.get('/api/unsubscribe', async (req, res) => {
+    try {
+        const { email, token } = req.query;
+
+        // Validate parameters
+        if (!email || !token) {
+            return res.status(400).send('Missing required parameters');
+        }
+
+        // Simple token validation (in production, use a more secure method)
+        const validToken = Buffer.from(email).toString('base64');
+        if (token !== validToken) {
+            return res.status(403).send('Invalid unsubscribe link');
+        }
+
+        // Read the current email list
+        let emailData;
+        try {
+            const data = await fs.readFile(EMAILS_FILE, 'utf-8');
+            emailData = JSON.parse(data);
+        } catch (error) {
+            return res.status(404).send('No subscriptions found');
+        }
+
+        // Find and remove the email
+        const initialLength = emailData.length;
+        emailData = emailData.filter(entry =>
+            typeof entry === 'object' ? entry.email !== email : entry !== email
+        );
+
+        // If no email was removed
+        if (initialLength === emailData.length) {
+            return res.status(404).send('Email not found in subscription list');
+        }
+
+        // Write the updated list back to file
+        await fs.writeFile(EMAILS_FILE, JSON.stringify(emailData, null, 2), 'utf-8');
+
+        // Return a user-friendly page
+        res.send(`
+      <html>
+        <head>
+          <title>Unsubscribe Successful</title>
+          <style>
+            body { font-family: "Outfit", Arial; text-align: center; margin-top: 50px; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            h1 { color: #333; }
+            p { line-height: 1.6; }
+            .success { color: green; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>Abmeldung erfolgreich</h1>
+            <p class="success">Ihre E-Mail-Adresse wurde erfolgreich von den Luftqualitätsbenachrichtigungen abgemeldet.</p>
+            <p>Sie erhalten keine weiteren Benachrichtigungen mehr.</p>
+            <p><a href="https://smartairtracking.click">Zurück zur Website</a></p>
+          </div>
+        </body>
+      </html>
+    `);
+    } catch (error) {
+        console.error('Error handling unsubscribe:', error);
+        res.status(500).send('Server error processing unsubscribe request');
     }
 });
 

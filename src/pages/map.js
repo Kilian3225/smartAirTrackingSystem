@@ -52,7 +52,7 @@ export async function initializeMap(mapDiv, locationViewParameter = 0, singleLoc
                     <h4>${location.topic}</h4>
                 </div>
                 <div id="line2" class="line">
-                    <a href="#" onclick="navigateToLocation(${index})">mehr details</a>
+                    <a href="#"  class="hover-fade" onclick="navigateToLocation(${index})">mehr details</a>
                 </div>
             </div>
         `;
