@@ -54,7 +54,6 @@ main
     border: 2px solid black;
     padding: 4px 8px;
     cursor: pointer;
-    font-weight: bold;
 }
 
 .alert{

@@ -40,19 +40,18 @@ export async function initializeMap(mapDiv, locationViewParameter = 0, singleLoc
             }
         });
 
-
-
         map.setView([locations[locationViewParameter].latitude, locations[locationViewParameter].longitude], 13);
     }
 
     function createPopupContent(location, index) {
+        const moduleName = location.topic.split('/').filter(part => part.includes('modul'))[0] || location.topic;
         return `
             <div class="popup">
                 <div id="line1" class="line">
-                    <h4>${location.topic}</h4>
+                    <h3>${moduleName}</h3>
                 </div>
                 <div id="line2" class="line">
-                    <a href="#"  class="hover-fade" onclick="navigateToLocation(${index})">mehr details</a>
+                    <a href="#"  class="hover-fade" onclick="navigateToLocation(${index})">mehr Details</a>
                 </div>
             </div>
         `;

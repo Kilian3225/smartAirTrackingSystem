@@ -1,9 +1,9 @@
 [
   {
-    "email": "wdkucd@gmail.com",
+    "email": "kilian.zimmermann@edu.htl-klu.at",
     "thresholds": {
-      "pm25": 2,
-      "pm10": 2
+      "pm25": 4,
+      "pm10": 4
     }
   }
 ]

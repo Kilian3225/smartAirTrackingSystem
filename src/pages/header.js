@@ -12,12 +12,7 @@ checkbox.addEventListener('change', () => {
         overlay.style.display = "none";
     }})
 
-
 logo.addEventListener('click', function()
 {
     window.location.href = 'index.html';
-});
-
-document.getElementById('close-popup').addEventListener('click', function() {
-    document.querySelector('.card').style.display = 'none';
 });

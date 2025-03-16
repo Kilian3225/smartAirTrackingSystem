@@ -12,9 +12,11 @@ const token = process.env.DATABASE_API_TOKEN;
 const org = process.env.DATABASE_ORG;
 const bucket = process.env.DATABASE_BUCKET;
 const EMAILS_FILE = './data/emails.json';
-const PM25_THRESHOLD = 50;
+const PM25_THRESHOLD = 2;
 const PM10_THRESHOLD = 2;
-const CHECK_INTERVAL = 60000*60;
+const CHECK_INTERVAL = 60000;
+let lastEmailSentTime = 0;
+const EMAIL_TIMEOUT = 24 * 60 * 60 * 1000;
 
 const queryAPI = new InfluxDB({ url, token }).getQueryApi(org);
 const app = express();
@@ -48,9 +50,16 @@ async function fetchAirQualityData() {
 
 async function sendEmailNotification(pmData) {
     try {
+
+        const currentTime = Date.now();
         // Read the email list
         const emailDataRaw = await fs.readFile(EMAILS_FILE, 'utf-8');
         const emailData = JSON.parse(emailDataRaw);
+
+        if (currentTime - lastEmailSentTime < EMAIL_TIMEOUT) {
+            console.log(`Skipping email notifications. next notification in ${Math.round((EMAIL_TIMEOUT - (currentTime - lastEmailSentTime)) / 1000 / 60)} minutes. (last: ${lastEmailSentTime}ms, next: ${lastEmailSentTime+EMAIL_TIMEOUT}ms)`);
+            return;
+        }
 
         if (!emailData || emailData.length === 0) {
             console.error('No email addresses found in emails.json');
@@ -82,6 +91,7 @@ async function sendEmailNotification(pmData) {
                     (data.pm10 !== null && data.pm10 > pm10Threshold)) {
                     shouldSend = true;
 
+
                     // Extract module name from topic
                     const moduleName = topic.split('/').filter(part => part.includes('modul'))[0] || topic;
                     alertHtmlMessage += `<p><strong>Modul ${moduleName}:</strong>`;
@@ -112,6 +122,7 @@ async function sendEmailNotification(pmData) {
                 html: alertHtmlMessage
             });
 
+            lastEmailSentTime = currentTime;
             console.log(`Alert email sent to ${emailAddress}`);
         }
 
@@ -284,7 +295,7 @@ app.get('/api/unsubscribe', async (req, res) => {
         <head>
           <title>Unsubscribe Successful</title>
           <style>
-            body { font-family: "Outfit", Arial; text-align: center; margin-top: 50px; }
+            body { font-family: "Outfit", Arial, serif; text-align: center; margin-top: 50px; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
             h1 { color: #333; }
             p { line-height: 1.6; }

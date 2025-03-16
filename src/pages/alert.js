@@ -1,4 +1,7 @@
 // Email subscription handler with custom threshold settings
+const CHECK_INTERVAL = 60000*60;
+const POPUP_TIMEOUT = 24 * 60 * 60 * 1000;
+
 document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('email-input');
     const pm25Input = document.getElementById('pm25-input');
@@ -8,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default threshold values
     const DEFAULT_PM25_THRESHOLD = 50;
     const DEFAULT_PM10_THRESHOLD = 80;
+
 
     submitButton.addEventListener('click', async () => {
         const email = emailInput.value.trim();
@@ -90,8 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-
 //popup:
 async function fetchAlerts() {
     try {
@@ -105,22 +107,38 @@ async function fetchAlerts() {
     }
 }
 
-function updateAlertsUI(alerts) {
-    const messageContainer = document.querySelector('.card .message');
-    if (!messageContainer) return;
+document.getElementById('close-popup').addEventListener('click', function() {
+    // Hide popup and store current timestamp
+    document.querySelector('.card').style.display = 'none';
+    localStorage.setItem('popupDismissedAt', Date.now());
+});
 
-    if (alerts.length === 0) {
-        messageContainer.innerHTML = '<p>Keine aktuellen Warnungen.</p>';
+function updateAlertsUI(alerts) {
+    const message = document.querySelector('.card .message');
+    const container = document.querySelector('.card');
+
+    if (!message || alerts.length === 0)
+    {
+        container.style.display = "none";
         return;
     }
 
-    messageContainer.innerHTML = '<h2>Luftqualitätswarnung</h2>\n' +
+    const dismissedAt = localStorage.getItem('popupDismissedAt');
+    if (dismissedAt && (Date.now() - dismissedAt < POPUP_TIMEOUT))
+    {
+        container.style.display = "none";
+        return;
+    }
+
+    container.style.display = "flex";
+    message.innerHTML = '<h2>Luftqualitätswarnung</h2>\n' +
         '<p>an den folgenden Standorten befindet sich die Luftqualität in einem kritischem Bereich:</p>\n' +
         alerts.map((alert, index) =>
             `<p><strong><a href="#" class="hover-fade" onclick="navigateToLocation(${index})">${alert.module}</a>:</strong> ${alert.message}</p>`
         ).join('');
 }
 
-// Fetch alerts every 30 seconds
-setInterval(fetchAlerts, 30000);
+
+// Fetch alerts alle 30min
+setInterval(fetchAlerts, CHECK_INTERVAL);
 fetchAlerts(); // Initial call

@@ -4,6 +4,7 @@ const detailsUrl = "location.html";
 window.navigateToLocation = function(locationIndex)
 {
     sessionStorage.setItem('selectedLocationIndex', locationIndex);
+    localStorage.setItem('lastLocationIndex', locationIndex);
     window.location.href = detailsUrl;  // Navigate to location.html
 }
 
