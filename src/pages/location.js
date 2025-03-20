@@ -35,6 +35,8 @@ if (selectedLocationIndex === null) {
 
 window.navigateToLocation = function(locationIndex) {
     sessionStorage.setItem('selectedLocationIndex', locationIndex);
+    sessionStorage.setItem('lastLocationIndex', locationIndex);
+
     window.location.href = detailsUrl;  // Navigate to location.html
 }
 
@@ -93,15 +95,18 @@ function updateGrafanaUrl(event, iframeSelector) {
 }
 
 // Helper function to update iframe URLs
-function updateIframeUrls(iframeSelector, timeRange, aggregationType) {
+function updateIframeUrls(iframeSelector, timeRange, aggregationType)
+{
     const fromTime = timeRangeToMilliseconds(timeRange);
     const toTime = Date.now();
 
     const iframes = document.querySelectorAll(iframeSelector);
 
-    iframes.forEach(iframe => {
+    iframes.forEach(iframe =>
+    {
         // Check if the iframe already has a src attribute
-        if (iframe.getAttribute('src')) {
+        if (iframe.getAttribute('src'))
+        {
             console.log("Aktualisiere src:", iframe.src);
             let url = new URL(iframe.src);
 
@@ -118,3 +123,15 @@ function updateIframeUrls(iframeSelector, timeRange, aggregationType) {
         }
     });
 }
+
+
+//Standortname:
+const response = await fetch('/data/locations.json');
+if (!response.ok) {
+    throw new Error('Fehler beim Laden der Locations');
+}
+const locations = await response.json();
+
+const moduleName = locations[selectedLocationIndex].topic.split('/').filter(part => part.includes('modul'))[0];
+
+document.querySelector(".general-info").innerHTML = `<h2>${moduleName}</h2>`;

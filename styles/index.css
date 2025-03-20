@@ -48,6 +48,7 @@ main
 }
 
 .button{
+    font-family: inherit;
     background-color: white;
     border-radius: 10px;
     box-shadow: none;
@@ -151,12 +152,10 @@ main
 
     .sensor-info{
         grid-area: 1/1/3/2;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-evenly;
     }
     .stat{
         width: calc(50% - 40px);
         margin-top: 30px;
     }
+
 }
