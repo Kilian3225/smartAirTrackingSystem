@@ -5,7 +5,7 @@ body {
     padding: 0;
     font-size: 16px;
     color: var(--text);
-    background: var(--bg);
+    background: var(--bg-outer);
     transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
@@ -19,23 +19,26 @@ a:link, a:visited {
 }
 
 :root{
-    --dark-light: #42414D;
     --dark-regular: #2B2A33;
-    --dark-dark: #1E1D24;
+    --dark-dark1: #26252e;
+    --dark-dark2: #1E1D24;
 
-    --light-light: #F9F9FB;
-    --light-dark: #bababa;
+    --light-regular: #F9F9FB;
+    --light-dark1: #ecebeb;
+    --light-dark2: #e5e4e4;
 }
 .light{
-    --bg: var(--light-light);
-    --bg-nav: white;
-    --bg-outer: var(--light-dark);
+    --bg: var(--light-regular);
+    --bg-nav: var(--light-dark2);
+    --bg-outer: var(--light-regular);
+    --bg-location: var(--light-regular);
     --text: black;
 }
 .dark{
     --bg: var(--dark-regular);
-    --bg-nav: var(--dark-dark);
-    --bg-outer: var(--dark-dark);
+    --bg-nav: var(--dark-dark2);
+    --bg-outer: var(--dark-regular);
+    --bg-location: var(--dark-dark1);
     --text: white;
  }
 
@@ -125,6 +128,7 @@ header {
     width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
+    background-color: var(--bg);
 
     -webkit-box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
     -moz-box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
@@ -148,17 +152,15 @@ header {
 }
 
 .stat {
-    height: calc((100vw * 2/3  - 20px)*9/16);
+    width: calc((50vw - 20px));
     aspect-ratio: 2/3;
-
     border: 2px solid black;
     border-radius: 10px;
     justify-self: center;
 }
 
 .chart {
-
-    width: calc(100vw * 2/3  - 20px);
+    width: calc(100vw - 20px);
     aspect-ratio: 16/9;
     border: 2px solid black;
     border-radius: 10px;

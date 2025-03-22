@@ -65,7 +65,10 @@ function timeRangeToMilliseconds(range) {
         '24h': 86400000,
         '2d': 172800000,
         '7d': 604800000,
-        '30d': 2592000000
+        '30d': 2592000000,
+        '90d': 2592000000*3,
+        '180d': 2592000000*6,
+        '1y': 2592000000*12,
     };
     return timeMap[range] ? now - timeMap[range] : now - 86400000; // Standard: 1 Tag
 }

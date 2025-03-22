@@ -8,7 +8,6 @@ window.navigateToLocation = function(locationIndex)
     window.location.href = detailsUrl;  // Navigate to location.html
 }
 
-
 const mapDiv = document.querySelector('.map');
 const mapInitializer = function ()
 {
@@ -35,17 +34,24 @@ document.addEventListener('DOMContentLoaded', function() {
     updateGrafanaUrls();
 });
 
-//
-const response = await fetch('/data/locations.json');
-if (!response.ok) {
-    throw new Error('Fehler beim Laden der Locations');
+
+async function setLastLocationIndex() {
+    if (localStorage.getItem('lastLocationIndex') === null)
+    {
+        localStorage.setItem('lastLocationIndex', "0");
+        console.log(localStorage.getItem('lastLocationIndex'));
+    }
+
+    const response = await fetch('/data/locations.json');
+    if (!response.ok) {
+        throw new Error('Fehler beim Laden der Locations');
+    }
+    const locations = await response.json();
+
+    const moduleName = locations[localStorage.getItem('lastLocationIndex')].topic.split('/').filter(part => part.includes('modul'))[0];
+
+    document.querySelector(".sensor-info").insertAdjacentHTML('afterbegin', `<h2>${moduleName}</h2>`);
 }
-const locations = await response.json();
 
-const moduleName = locations[localStorage.getItem('lastLocationIndex')].topic.split('/').filter(part => part.includes('modul'))[0];
-
-
-
-document.querySelector(".sensor-info").insertAdjacentHTML('afterbegin', `<h2>${moduleName}</h2>`);
-
+setLastLocationIndex();
 

@@ -1,9 +1,18 @@
 [
   {
-    "email": "kilian.zimmermann@edu.htl-klu.at",
+    "email": "wdkucd@gmail.com",
     "thresholds": {
-      "pm25": 4,
-      "pm10": 4
-    }
+      "pm25": -1,
+      "pm10": 80
+    },
+    "lastEmailSent": 1742659188040
+  },
+  {
+    "email": "kilian.zimmermann2006@gmail.com",
+    "thresholds": {
+      "pm25": -1,
+      "pm10": 80
+    },
+    "lastEmailSent": 1742658424247
   }
 ]

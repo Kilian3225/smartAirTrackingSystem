@@ -30,10 +30,11 @@ main{
 }
 
 select{
-    background-color: white;
+    color: var(--text);
+    background-color: var(--bg-nav);
     border-radius: 10px;
     box-shadow: none;
-    border: 2px solid black;
+    border: 1px solid black;
     padding: 4px 8px;
     cursor: pointer;
     font-weight: bold;
@@ -53,26 +54,24 @@ select{
 
 .statistics-container{
     grid-area: 4/1/5/3;
-    display: grid;
-    grid-gap: 10px;
-    grid-template-rows: 1fr;
-    grid-template-columns: 2fr 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .charts-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    grid-area: 1/1/2/2;
     gap: 10px;
-    transform: translateX(15px);
 }
 .stats-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    grid-area: 1/2/2/3;
+    flex-direction: row;
     gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 @media (min-width: 768px)
@@ -119,6 +118,7 @@ select{
     }
     .charts-container{
         grid-area: 3/1/6/2;
+        transform: translateX(15px);
     }
 
     .stats-container {
@@ -145,7 +145,7 @@ select{
         border: 2px solid black;
         border-radius: 10px;
         justify-self: center;
-        margin: 15px auto;
+        margin: 10px auto;
 
     }
 

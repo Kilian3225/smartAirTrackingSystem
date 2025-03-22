@@ -1,8 +1,9 @@
 // Email subscription handler with custom threshold settings
 const CHECK_INTERVAL = 60000*60;
-const POPUP_TIMEOUT = 24 * 60 * 60 * 1000;
+ const POPUP_TIMEOUT = 60 * 1000;    //24 * 60 * 60 * 1000
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () =>
+{
     const emailInput = document.getElementById('email-input');
     const pm25Input = document.getElementById('pm25-input');
     const pm10Input = document.getElementById('pm10-input');

@@ -13,7 +13,7 @@ main
     background-image: url("/images/map-overlay.png");
     background-repeat: no-repeat;
     background-size: cover;
-    border: 2px solid black;
+    border: 1px solid black;
     z-index: 1;
     filter:saturate(150%);
 }
@@ -25,7 +25,7 @@ main
     align-items: center;
 }
 
-.description {margin: 10px;}
+.description {margin: 10px 10px 0 10px;}
 .description h2{margin: 0 5px;}
 .description button{margin-left: 20px;}
 .description p {
@@ -37,8 +37,20 @@ main
 .sensor-info{
     grid-area: 2/2/4/3;
     display: flex;
-    align-items: center;
     flex-direction: column;
+    background-color: var(--bg-location);
+    border-left: 1px solid var(--bg-nav);
+}
+
+.sensor-info h2, .sensor-info div{
+    text-align: center;
+}
+
+.separator{
+    height: 1px;
+    width: 90%;
+    align-self: center;
+    border-bottom: 1px solid var(--bg-nav);
 }
 
 .stat{
@@ -49,10 +61,11 @@ main
 
 .button{
     font-family: inherit;
-    background-color: white;
+    color: var(--text);
+    background-color: var(--bg-nav);
     border-radius: 10px;
     box-shadow: none;
-    border: 2px solid black;
+    border: 1px solid black;
     padding: 4px 8px;
     cursor: pointer;
 }
@@ -107,22 +120,13 @@ main
 {
     .general-info
     {
-        grid-area: 3/1/4/3
-    }
-    .description{
-        margin-top: 0;
+        grid-area: 2/1/4/3
     }
 
-    .sensor-info
-    {
-        grid-area: 2/1/3/3;
-        flex-direction: row;
-        justify-content: space-evenly;
-    }
-    .stat{
-        margin: 0;
-    }
+    .sensor-info {
+        display: none;
 
+    }
 }
 
 @media (min-width: 768px)
@@ -135,6 +139,7 @@ main
     .map{
         grid-area: 1/2/2/3;
         height: 55vh;
+        border: 2px solid black;
         transform: translateY(20px);
         border-radius: 20px;
         margin: 10px;
@@ -152,7 +157,16 @@ main
 
     .sensor-info{
         grid-area: 1/1/3/2;
+        border-right: 1px solid var(--bg-nav);
+        border-left: 0;
+
     }
+
+    .stats-container{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
     .stat{
         width: calc(50% - 40px);
         margin-top: 30px;
