@@ -1,52 +1,34 @@
 const darkmodeStatus = document.querySelector("#darkmode-status");
-const theme = localStorage.getItem("theme");
 const body = document.body;
 const logo = document.querySelector('.logo');
-const grafanaElements = document.querySelectorAll('.grafana');
 
-// Initialisierungsfunktion
 function initializeTheme() {
-    const isLightMode = theme === 'light';
+    const currentTheme = localStorage.getItem("theme"); // Fresh read!
+    const isLightMode = currentTheme === 'light';
 
-    // Setze das Theme auf Basis des LocalStorage
+    // Update UI
     body.classList.toggle('light', isLightMode);
     body.classList.toggle('dark', !isLightMode);
     darkmodeStatus.checked = isLightMode;
+    logo.src = isLightMode ? "../../images/Logo-black.png" : "../../images/Logo-white.png";
 
-    // Aktualisiere die Grafana-Elemente
-    grafanaElements.forEach(grafanaElement => {
-        grafanaElement.src = grafanaElement.src.replace(
+    // Update Grafana iframes (re-queried)
+    const grafanaElements = document.querySelectorAll('.grafana');
+    grafanaElements.forEach(iframe => {
+        iframe.src = iframe.src.replace(
             isLightMode ? "dark" : "light",
             isLightMode ? "light" : "dark"
         );
     });
-
-    // Setze das korrekte Logo
-    logo.src = isLightMode ? "../../images/Logo-black.png" : "../../images/Logo-white.png";
 }
 
-// Event-Listener für Änderungen des Darkmode-Status
+// Toggle handler
 darkmodeStatus.addEventListener('change', () => {
     const isLightMode = darkmodeStatus.checked;
-
-    // Aktualisiere Klassen für das Theme
-    body.classList.toggle('light', isLightMode);
-    body.classList.toggle('dark', !isLightMode);
-
-    // Aktualisiere Grafana-Elemente
-    grafanaElements.forEach(grafanaElement => {
-        grafanaElement.src = grafanaElement.src.replace(
-            isLightMode ? "dark" : "light",
-            isLightMode ? "light" : "dark"
-        );
-    });
-
-    // Speichere das aktuelle Theme in LocalStorage
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
-
-    // Aktualisiere das Logo
-    logo.src = isLightMode ? "../../images/Logo-black.png" : "../../images/Logo-white.png";
+    initializeTheme(); // Explicitly update
 });
 
-// Initialisiere das Theme bei Seiten-Neuladen
+// Initialize on load + listen for dynamic iframes
 initializeTheme();
+document.addEventListener('grafanaIframesUpdated', initializeTheme);
