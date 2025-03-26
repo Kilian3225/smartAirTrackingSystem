@@ -19,6 +19,7 @@
     <script src="darkmode.js" type="module"></script>
     <script src="alert.js" type="module"></script>
     <script src="map.js" type="module"></script>
+    <script src="userLocation.js" type="module"></script>
 
     <link rel="stylesheet" href="../../styles/layout.css">
     <link rel="stylesheet" href="../../styles/index.css">
@@ -48,6 +49,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="http://projects.htl-klu.at/Projekt_2425/pr5ahbg24054/Homepage/index.html">Über uns</a></li>
+                <li style="cursor: pointer" id="reset-geo">Standort teilen</li>
             </ul>
         </div>
         <div class="darkmode">
@@ -67,7 +69,6 @@
     </nav>
 </header>
 
-
 <div class="card">
     <div class="image">
         <svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
@@ -80,6 +81,9 @@
     <button class="close-btn hover-fade" id="close-popup">×</button>
 </div>
 
+<!--<button id="reset-geo" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">-->
+<!--    Reset Geolocation-->
+<!--</button>-->
 
 <div class="width-limiter">
     <main>

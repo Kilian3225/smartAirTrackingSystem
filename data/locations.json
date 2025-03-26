@@ -1,12 +1,12 @@
 [
   {
     "topic": "v3/lora-201124@ttn/devices/sats-modul-01/up",
-    "latitude": 46.610645,
-    "longitude": 14.304378
+    "latitude": 46.610831,
+    "longitude": 14.304333
   },
   {
     "topic": "v3/lora-201124@ttn/devices/sats-modul-02/up",
-    "latitude": 46.610644,
-    "longitude": 14.30452
+    "latitude": 46.610624,
+    "longitude": 14.304389
   }
 ]

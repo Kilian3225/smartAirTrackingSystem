@@ -35,62 +35,76 @@ function updateLocationHistory(locationIndex) {
 }
 
 async function updateGrafanaUrls() {
-    const history = JSON.parse(localStorage.getItem('locationHistory') || []); // Default to location 0 if no history
+    // Get both history and nearest location
+    const history = JSON.parse(localStorage.getItem('locationHistory') || '[]');
+    const nearestModuleId = sessionStorage.getItem('nearestModule');
     const response = await fetch('/data/locations.json');
 
-    if (!response.ok)
-    {
+    if (!response.ok) {
         throw new Error('Fehler beim Laden der Locations');
     }
     const locations = await response.json();
 
     const sensorInfo = document.querySelector(".sensor-info");
-    if (history.length > 0)
-    sensorInfo.innerHTML = '<h2>Zuletzt besucht:</h2> <div class="separator"  style="border-bottom: 2px solid var(--bg-nav)" ></div>';
+    sensorInfo.innerHTML = '';
 
+    // Add nearest module section if available
+    if (nearestModuleId !== null) {
+        const nearestContainer = document.createElement('div');
+        nearestContainer.innerHTML = '<h2>nächstgelegenes Modul:</h2><div class="separator" style="border-bottom: 2px solid var(--bg-nav)"></div>';
+        sensorInfo.appendChild(nearestContainer);
 
-    // Create a container for each location in history
-    history.forEach((locationIndex, idx) => {
-        const moduleName = locations[locationIndex].topic.split('/').filter(part => part.includes('modul'))[0];
+        addLocationToUI(nearestModuleId, locations, sensorInfo);
+    }
 
-        const locationContainer = document.createElement('div');
-        locationContainer.className = 'location-container';
+    // Add history section if available
+    if (history.length > 0) {
+        const historyContainer = document.createElement('div');
+        historyContainer.innerHTML = '<h2>Zuletzt besucht:</h2><div class="separator" style="border-bottom: 2px solid var(--bg-nav)"></div>';
+        sensorInfo.appendChild(historyContainer);
 
-        const moduleElement = document.createElement('h3');
-        moduleElement.textContent = moduleName;
-        locationContainer.appendChild(moduleElement);
+        history.forEach((locationIndex, idx) => {
+            addLocationToUI(locationIndex, locations, sensorInfo);
+            if (idx < history.length - 1) {
+                const separator = document.createElement('div');
+                separator.className = 'separator';
+                sensorInfo.appendChild(separator);
+            }
+        });
+    }
+}
 
-        // Add stats container with iframes
-        const statsContainer = document.createElement('div');
-        statsContainer.className = 'stats-container';
+function addLocationToUI(locationIndex, locations, parentElement) {
+    const moduleName = locations[locationIndex].topic.split('/').filter(part => part.includes('modul'))[0];
 
-        const iframe1 = document.createElement('iframe');
-        iframe1.className = 'stat grafana';
-        let url1 = new URL("https://grafana.smartairtracking.click:3000/d-solo/cedv7ewwt2k8wd/statistiken?orgId=1&timezone=browser&var-query0=&var-zeitbereich=30d&var-query0-2=&var-aggregationsType=last&theme=dark&panelId=1&__feature.dashboardSceneSolo");
-        url1.searchParams.set('var-locationId', (parseInt(locationIndex)+1).toString());
-        iframe1.src = url1.toString();
+    const locationContainer = document.createElement('div');
+    locationContainer.className = 'location-container';
 
-        const iframe2 = document.createElement('iframe');
-        iframe2.className = 'stat grafana';
-        let url2 = new URL("https://grafana.smartairtracking.click:3000/d-solo/cedv7ewwt2k8wd/statistiken?orgId=1&timezone=browser&var-query0=&var-zeitbereich=30d&var-query0-2=&var-aggregationsType=last&theme=dark&panelId=2&__feature.dashboardSceneSolo");
-        url2.searchParams.set('var-locationId', (parseInt(locationIndex)+1).toString());
-        iframe2.src = url2.toString();
+    const moduleElement = document.createElement('h3');
+    moduleElement.textContent = moduleName;
+    locationContainer.appendChild(moduleElement);
 
+    const statsContainer = document.createElement('div');
+    statsContainer.className = 'stats-container';
 
-        statsContainer.appendChild(iframe1);
-        statsContainer.appendChild(iframe2);
-        locationContainer.appendChild(statsContainer);
-        sensorInfo.appendChild(locationContainer);
+    const iframe1 = document.createElement('iframe');
+    iframe1.className = 'stat grafana';
+    let url1 = new URL("https://grafana.smartairtracking.click:3000/d-solo/cedv7ewwt2k8wd/statistiken?orgId=1&timezone=browser&var-query0=&var-zeitbereich=30d&var-query0-2=&var-aggregationsType=last&theme=dark&panelId=1&__feature.dashboardSceneSolo");
+    url1.searchParams.set('var-locationId', (parseInt(locationIndex)+1).toString());
+    iframe1.src = url1.toString();
 
-        document.dispatchEvent(new CustomEvent('grafanaIframesUpdated'));
+    const iframe2 = document.createElement('iframe');
+    iframe2.className = 'stat grafana';
+    let url2 = new URL("https://grafana.smartairtracking.click:3000/d-solo/cedv7ewwt2k8wd/statistiken?orgId=1&timezone=browser&var-query0=&var-zeitbereich=30d&var-query0-2=&var-aggregationsType=last&theme=dark&panelId=2&__feature.dashboardSceneSolo");
+    url2.searchParams.set('var-locationId', (parseInt(locationIndex)+1).toString());
+    iframe2.src = url2.toString();
 
-        // Add separator except after last item
-        if (idx < history.length - 1) {
-            const separator = document.createElement('div');
-            separator.className = 'separator';
-            sensorInfo.appendChild(separator);
-        }
-    });
+    statsContainer.appendChild(iframe1);
+    statsContainer.appendChild(iframe2);
+    locationContainer.appendChild(statsContainer);
+    parentElement.appendChild(locationContainer);
+
+    document.dispatchEvent(new CustomEvent('grafanaIframesUpdated'));
 }
 
 document.addEventListener('DOMContentLoaded', function() {
