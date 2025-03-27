@@ -4,12 +4,14 @@ const mapDiv = document.querySelector('.map');
 let selectedLocationIndex = sessionStorage.getItem('selectedLocationIndex');
 const detailsUrl = "location.html";
 
-if (selectedLocationIndex === null) {
+if (selectedLocationIndex === null)
+{
     console.error('Kein Standort ausgewählt');
 }
 
 // Use an immediately invoked async function to set up the page
-(async function initializePage() {
+(async function initializePage()
+{
     try {
         const response = await fetch('/data/locations.json');
 
@@ -33,7 +35,8 @@ if (selectedLocationIndex === null) {
     }
 })();
 
-window.navigateToLocation = function(locationIndex) {
+window.navigateToLocation = function(locationIndex)
+{
     sessionStorage.setItem('selectedLocationIndex', locationIndex);
     sessionStorage.setItem('lastLocationIndex', locationIndex);
 
@@ -42,15 +45,15 @@ window.navigateToLocation = function(locationIndex) {
 
 const timeRangeElement = document.getElementById('timeRange');
 const aggregationTypeElement = document.getElementById('aggregationType');
-
-// Only add event listeners if elements exist
-if (timeRangeElement) {
+if (timeRangeElement)
+{
     timeRangeElement.addEventListener('change', function(event) {
         updateGrafanaUrl(event, 'iframe.grafana');
     });
 }
 
-if (aggregationTypeElement) {
+if (aggregationTypeElement)
+{
     aggregationTypeElement.addEventListener('change', function(event) {
         updateGrafanaUrl(event, 'iframe.stat.grafana');
     });
@@ -73,9 +76,11 @@ function timeRangeToMilliseconds(range) {
     return timeMap[range] ? now - timeMap[range] : now - 86400000; // Standard: 1 Tag
 }
 
-// Initial URL setup without triggering reload
-function updateGrafanaUrlInitial() {
-    if (!timeRangeElement || !aggregationTypeElement) {
+
+function updateGrafanaUrlInitial()
+{
+    if (!timeRangeElement || !aggregationTypeElement)
+    {
         console.error("timeRangeElement oder aggregationTypeElement nicht gefunden");
         return;
     }
@@ -90,7 +95,8 @@ function updateGrafanaUrlInitial() {
 }
 
 // Update function used for both initial setup and change events
-function updateGrafanaUrl(event, iframeSelector) {
+function updateGrafanaUrl(event, iframeSelector)
+{
     const timeRange = timeRangeElement.value;
     const aggregationType = aggregationTypeElement.value;
 
@@ -130,7 +136,8 @@ function updateIframeUrls(iframeSelector, timeRange, aggregationType)
 
 //Standortname:
 const response = await fetch('/data/locations.json');
-if (!response.ok) {
+if (!response.ok)
+{
     throw new Error('Fehler beim Laden der Locations');
 }
 const locations = await response.json();

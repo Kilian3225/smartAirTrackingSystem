@@ -113,8 +113,8 @@ app.get('/locations', async (req, res) => {
 });
 
 
-// Schedule the data update every hour (3600000 ms)
-setInterval(updateLocationsData, 3600000);
+// Schedule the data update every half hour (1800000 ms)
+setInterval(updateLocationsData, 1800000);
 updateLocationsData(); // Initial update
 
 app.listen(3001, () => console.log('Server started on port 3001'));

@@ -73,6 +73,7 @@ select{
     justify-content: center;
     flex-wrap: wrap;
 }
+.stats-container iframe{pointer-events: none}
 
 @media (min-width: 768px)
 {

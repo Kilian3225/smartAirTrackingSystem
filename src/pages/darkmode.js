@@ -3,7 +3,7 @@ const body = document.body;
 const logo = document.querySelector('.logo');
 
 function initializeTheme() {
-    const currentTheme = localStorage.getItem("theme"); // Fresh read!
+    const currentTheme = localStorage.getItem("theme");
     const isLightMode = currentTheme === 'light';
 
     // Update UI
@@ -14,7 +14,8 @@ function initializeTheme() {
 
     // Update Grafana iframes (re-queried)
     const grafanaElements = document.querySelectorAll('.grafana');
-    grafanaElements.forEach(iframe => {
+    grafanaElements.forEach(iframe =>
+    {
         iframe.src = iframe.src.replace(
             isLightMode ? "dark" : "light",
             isLightMode ? "light" : "dark"
@@ -23,7 +24,8 @@ function initializeTheme() {
 }
 
 // Toggle handler
-darkmodeStatus.addEventListener('change', () => {
+darkmodeStatus.addEventListener('change', () =>
+{
     const isLightMode = darkmodeStatus.checked;
     localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
     initializeTheme(); // Explicitly update

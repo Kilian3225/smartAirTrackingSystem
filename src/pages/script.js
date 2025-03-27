@@ -18,7 +18,8 @@ const mapInitializer = function ()
 mapDiv.addEventListener('click', mapInitializer);
 
 
-function updateLocationHistory(locationIndex) {
+function updateLocationHistory(locationIndex)
+{
     let history = JSON.parse(localStorage.getItem('locationHistory') || '[]');
 
     history = history.filter(item => item !== locationIndex); //prevents duplicate entries
@@ -34,13 +35,15 @@ function updateLocationHistory(locationIndex) {
     localStorage.setItem('lastLocationIndex', locationIndex); // Keep for backward compatibility
 }
 
-async function updateGrafanaUrls() {
+async function updateGrafanaUrls()
+{
     // Get both history and nearest location
     const history = JSON.parse(localStorage.getItem('locationHistory') || '[]');
     const nearestModuleId = sessionStorage.getItem('nearestModule');
     const response = await fetch('/data/locations.json');
 
-    if (!response.ok) {
+    if (!response.ok)
+    {
         throw new Error('Fehler beim Laden der Locations');
     }
     const locations = await response.json();
@@ -49,7 +52,8 @@ async function updateGrafanaUrls() {
     sensorInfo.innerHTML = '';
 
     // Add nearest module section if available
-    if (nearestModuleId !== null) {
+    if (nearestModuleId !==  null)
+    {
         const nearestContainer = document.createElement('div');
         nearestContainer.innerHTML = '<h2>nächstgelegenes Modul:</h2><div class="separator" style="border-bottom: 2px solid var(--bg-nav)"></div>';
         sensorInfo.appendChild(nearestContainer);
@@ -58,7 +62,8 @@ async function updateGrafanaUrls() {
     }
 
     // Add history section if available
-    if (history.length > 0) {
+    if (history.length > 0)
+    {
         const historyContainer = document.createElement('div');
         historyContainer.innerHTML = '<h2>Zuletzt besucht:</h2><div class="separator" style="border-bottom: 2px solid var(--bg-nav)"></div>';
         sensorInfo.appendChild(historyContainer);
@@ -74,7 +79,8 @@ async function updateGrafanaUrls() {
     }
 }
 
-function addLocationToUI(locationIndex, locations, parentElement) {
+function addLocationToUI(locationIndex, locations, parentElement)
+{
     const moduleName = locations[locationIndex].topic.split('/').filter(part => part.includes('modul'))[0];
 
     const locationContainer = document.createElement('div');
@@ -107,7 +113,8 @@ function addLocationToUI(locationIndex, locations, parentElement) {
     document.dispatchEvent(new CustomEvent('grafanaIframesUpdated'));
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function()
+{
     // Initialize with default location if no history exists
     if (!localStorage.getItem('locationHistory')) {
         localStorage.setItem('locationHistory', JSON.stringify([]));

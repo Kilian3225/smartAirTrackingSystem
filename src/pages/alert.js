@@ -1,6 +1,5 @@
-// Email subscription handler with custom threshold settings
-const CHECK_INTERVAL = 60000*60;
- const POPUP_TIMEOUT = 60 * 1000;    //24 * 60 * 60 * 1000
+const CHECK_INTERVAL = 60000*60;    //hourly
+const POPUP_TIMEOUT =24 * 60 * 60 * 1000;    //daily
 
 document.addEventListener('DOMContentLoaded', () =>
 {
@@ -14,7 +13,8 @@ document.addEventListener('DOMContentLoaded', () =>
     const DEFAULT_PM10_THRESHOLD = 80;
 
 
-    submitButton.addEventListener('click', async () => {
+    submitButton.addEventListener('click', async () =>
+    {
         const email = emailInput.value.trim();
         const pm25 = pm25Input.value.trim() !== '' ? parseInt(pm25Input.value) : DEFAULT_PM25_THRESHOLD;
         const pm10 = pm10Input.value.trim() !== '' ? parseInt(pm10Input.value) : DEFAULT_PM10_THRESHOLD;
@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () =>
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
+                body: JSON.stringify(
+          {
                     email,
                     thresholds:
                     {
@@ -68,13 +69,15 @@ document.addEventListener('DOMContentLoaded', () =>
     });
 
     // Email validation function
-    function isValidEmail(email) {
+    function isValidEmail(email)
+    {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
 
     // Show message to user
-    function showMessage(message, type) {
+    function showMessage(message, type)
+    {
         // Create message element if it doesn't exist
         let messageEl = document.querySelector('.alert-message');
         if (!messageEl) {
@@ -96,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () =>
 });
 
 //popup:
-async function fetchAlerts() {
+async function fetchAlerts()
+{
     try {
         const response = await fetch('http://localhost:3002/api/alerts');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -108,13 +112,15 @@ async function fetchAlerts() {
     }
 }
 
-document.getElementById('close-popup').addEventListener('click', function() {
+document.getElementById('close-popup').addEventListener('click', function()
+{
     // Hide popup and store current timestamp
     document.querySelector('.card').style.display = 'none';
     localStorage.setItem('popupDismissedAt', Date.now());
 });
 
-function updateAlertsUI(alerts) {
+function updateAlertsUI(alerts)
+{
     const message = document.querySelector('.card .message');
     const container = document.querySelector('.card');
 

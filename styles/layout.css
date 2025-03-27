@@ -8,6 +8,9 @@ body {
     background: var(--bg-outer);
     transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
+html, body {
+    height: 100%;
+}
 
 select, select option {
     font-family: "Outfit", Arial, serif;
@@ -23,8 +26,8 @@ a:link, a:visited {
     --dark-dark1: #26252e;
     --dark-dark2: #1E1D24;
 
-    --light-regular: #F9F9FB;
-    --light-dark1: #ecebeb;
+    --light-regular: #fafafa;
+    --light-dark1: #fafafc;
     --light-dark2: #e5e4e4;
 }
 .light{
@@ -112,7 +115,11 @@ header {
     flex-direction: column;
     justify-content: center;
 }
-
+#reset-geo,  #reset-geo-dropdown
+{
+    cursor: pointer;
+    text-align: center;
+}
 .dropdown-menu a
 {
     width: 100%;
@@ -126,13 +133,13 @@ header {
     max-width: 1440px;
     margin: 0 auto;
     width: 100%;
-    min-height: 100vh;
     box-sizing: border-box;
     background-color: var(--bg);
-
     -webkit-box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
     -moz-box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
     box-shadow: 0 0 20px -5px rgba(0,0,0,0.69);
+    top: 0;
+    bottom: 0;
 }
 
 @media (min-width: 768px)

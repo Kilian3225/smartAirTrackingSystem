@@ -2,10 +2,10 @@
   {
     "email": "wdkucd@gmail.com",
     "thresholds": {
-      "pm25": -1,
-      "pm10": 80
+      "pm25": 50,
+      "pm10": 60
     },
-    "lastEmailSent": 1742904862731
+    "lastEmailSent": 1743005814298
   },
   {
     "email": "kilian.zimmermann2006@gmail.com",
@@ -13,6 +13,6 @@
       "pm25": -1,
       "pm10": 80
     },
-    "lastEmailSent": 1742904862731
+    "lastEmailSent": 1743005814298
   }
 ]

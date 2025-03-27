@@ -9,7 +9,6 @@ main
 .map {
     grid-area: 1/1/2/3;
     height: 350px;
-    /*width: 100%;*/
     background-image: url("/images/map-overlay.png");
     background-repeat: no-repeat;
     background-size: cover;
@@ -23,6 +22,8 @@ main
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
+    max-height: 100%;
 }
 
 .description {margin: 10px 10px 0 10px;}
@@ -37,14 +38,17 @@ main
 .sensor-info{
     grid-area: 2/2/4/3;
     display: flex;
+    overflow-y: auto; /* Allow vertical scrolling */
     flex-direction: column;
     background-color: var(--bg-location);
     border-left: 1px solid var(--bg-nav);
+    text-align: center;
+    max-height: 550px;
 }
 
-.sensor-info{
-    text-align: center;
-}
+iframe{pointer-events: none}
+
+.sensor-info h2{font-size: calc(1vw + 0.7rem);}
 
 .separator{
     height: 1px;
@@ -132,7 +136,7 @@ main
 @media (min-width: 768px)
 {
     main {
-        grid-template-rows: 55vh 40vh;
+        grid-template-rows: 55vh 41vh;
         grid-template-columns: 30% 70%;
         margin-right: 30px;
     }
@@ -159,8 +163,10 @@ main
         grid-area: 1/1/3/2;
         border-right: 2px solid var(--bg-nav);
         border-left: 0;
-
+        max-height: 100%;
     }
+    .sensor-info h2{font-size: 24px;}
+
 
     .stats-container{
         display: flex;

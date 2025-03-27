@@ -1,24 +1,29 @@
 export async function initializeMap(mapDiv, locationViewParameter = 0, singleLocation = false)
 {
     const response = await fetch('/data/locations.json');
-    if (!response.ok) {
+    if (!response.ok)
+    {
         throw new Error('Fehler beim Laden der Locations');
     }
     const locations = await response.json();
 
-    function createMap() {
+    function createMap()
+    {
         const map = L.map(mapDiv);
 
-        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+        {
             attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        locations.forEach((location, index) => {
+        locations.forEach((location, index) =>
+        {
             try {
                 const markerPos = L.latLng(location.latitude, location.longitude);
                 const marker = L.marker(markerPos);
 
-                if (index === locationViewParameter && singleLocation) {
+                if (index === locationViewParameter && singleLocation)
+                {
                     // Icon für diesen Marker ändern
                     marker.setIcon(L.icon({
                         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
@@ -43,7 +48,8 @@ export async function initializeMap(mapDiv, locationViewParameter = 0, singleLoc
         map.setView([locations[locationViewParameter].latitude, locations[locationViewParameter].longitude], 13);
     }
 
-    function createPopupContent(location, index) {
+    function createPopupContent(location, index)
+    {
         const moduleName = location.topic.split('/').filter(part => part.includes('modul'))[0] || location.topic;
         return `
             <div class="popup">

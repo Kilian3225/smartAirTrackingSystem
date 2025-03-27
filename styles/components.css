@@ -102,19 +102,6 @@
     box-shadow: none;
 }
 
-
-
-
-
-
-
-
-/*z-index: 100;*/
-/*position: fixed;*/
-/*width: 100%;*/
-/*background: var(--bg-nav);*/
-/*transition: background 500ms ease-in-out;*/
-
 /* From Uiverse.io by Yaya12085 */
 .card {
     z-index: 100;
@@ -186,7 +173,7 @@
 }
 
 .hover-fade:hover {
-    opacity: 0.7;
+    opacity: 0.65;
 }
 
 
